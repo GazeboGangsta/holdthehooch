@@ -24,7 +24,7 @@ class BootScene extends Phaser.Scene {
         // Character
         this.load.svg('gurgles', 'assets/svg/gurgles.svg', { width: 64, height: 80 });
         this.load.svg('gurgles-jump', 'assets/svg/gurgles-jump.svg', { width: 64, height: 70 });
-        this.load.svg('mug', 'assets/svg/mug.svg', { width: 24, height: 28 });
+        this.load.svg('hooch', 'assets/svg/hooch.svg', { width: 40, height: 36 });
 
         // Obstacles
         this.load.svg('root', 'assets/svg/root.svg', { width: 48, height: 32 });

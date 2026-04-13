@@ -29,14 +29,14 @@ class MenuScene extends Phaser.Scene {
         const gurgles = this.add.image(GAME_WIDTH / 2, 320, 'gurgles');
         gurgles.setScale(2);
 
-        // Mugs wobble tween
-        const mugLeft = this.add.image(GAME_WIDTH / 2 - 55, 300, 'mug').setScale(1.5);
-        const mugRight = this.add.image(GAME_WIDTH / 2 + 55, 300, 'mug').setScale(1.5).setFlipX(true);
+        // Hooch above Gurgles' head, wobbling
+        const hooch = this.add.image(GAME_WIDTH / 2, 260, 'hooch').setScale(2);
 
         this.tweens.add({
-            targets: [mugLeft, mugRight],
-            angle: { from: -8, to: 8 },
-            duration: 800,
+            targets: hooch,
+            angle: { from: -10, to: 10 },
+            x: { from: GAME_WIDTH / 2 - 12, to: GAME_WIDTH / 2 + 12 },
+            duration: 900,
             yoyo: true,
             repeat: -1,
             ease: 'Sine.easeInOut',

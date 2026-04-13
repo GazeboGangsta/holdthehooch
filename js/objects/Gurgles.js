@@ -7,25 +7,21 @@ class Gurgles {
         this.sprite.setCollideWorldBounds(true);
         this.sprite.body.setGravityY(0); // Uses scene gravity
 
-        // Mugs as child images (positioned relative to Gurgles)
-        this.mugLeft = scene.add.image(x - 38, y - 10, 'mug');
-        this.mugRight = scene.add.image(x + 38, y - 10, 'mug').setFlipX(true);
+        // Single hooch held above head with both hands
+        this.hooch = scene.add.image(x, y - 50, 'hooch');
 
         this.isJumping = false;
         this.groundY = y;
     }
 
     update(hoochBalance) {
-        // Update mug positions to follow Gurgles
         const x = this.sprite.x;
         const y = this.sprite.y;
-        this.mugLeft.setPosition(x - 38, y - 10);
-        this.mugRight.setPosition(x + 38, y - 10);
 
-        // Tilt mugs based on balance
-        const tilt = hoochBalance.getTiltAngle();
-        this.mugLeft.setAngle(-tilt);
-        this.mugRight.setAngle(-tilt);
+        // Hooch follows above Gurgles' head, offset by balance tilt
+        const tiltOffset = (hoochBalance.value / 100) * 20;
+        this.hooch.setPosition(x + tiltOffset, y - 50);
+        this.hooch.setAngle(hoochBalance.getTiltAngle());
 
         // Switch texture based on jump state
         if (this.sprite.body.touching.down || this.sprite.body.blocked.down) {
@@ -50,13 +46,12 @@ class Gurgles {
         return this.sprite;
     }
 
-    getMugs() {
-        return [this.mugLeft, this.mugRight];
+    getHooch() {
+        return this.hooch;
     }
 
     destroy() {
         this.sprite.destroy();
-        this.mugLeft.destroy();
-        this.mugRight.destroy();
+        this.hooch.destroy();
     }
 }

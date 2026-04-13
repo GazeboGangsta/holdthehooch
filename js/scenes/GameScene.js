@@ -136,9 +136,9 @@ class GameScene extends Phaser.Scene {
         // Splash particles when spilling
         if (Math.abs(this.hoochBalance.value) > CONSTANTS.BALANCE_SPILL_THRESHOLD) {
             if (Math.random() < 0.3) {
-                const side = this.hoochBalance.value > 0 ? 1 : -1;
-                const mugX = this.gurgles.getSprite().x + side * 38;
-                const mugY = this.gurgles.getSprite().y - 15;
+                const hooch = this.gurgles.getHooch();
+                const mugX = hooch.x;
+                const mugY = hooch.y;
                 const drop = this.add.circle(
                     mugX + Math.random() * 6 - 3,
                     mugY,
