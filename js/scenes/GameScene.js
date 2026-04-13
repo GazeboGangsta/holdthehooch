@@ -19,11 +19,11 @@ class GameScene extends Phaser.Scene {
         this.bgGround1 = this.add.image(0, GROUND_Y, 'bg-ground').setOrigin(0, 0).setDisplaySize(GAME_WIDTH, GAME_HEIGHT - GROUND_Y);
         this.bgGround2 = this.add.image(GAME_WIDTH, GROUND_Y, 'bg-ground').setOrigin(0, 0).setDisplaySize(GAME_WIDTH, GAME_HEIGHT - GROUND_Y);
 
-        // Ground physics body (invisible static group with a rectangle)
+        // Ground physics body (invisible static sprite)
         this.groundGroup = this.physics.add.staticGroup();
-        this.ground = this.add.rectangle(GAME_WIDTH / 2, GROUND_Y + 10, GAME_WIDTH, 20, 0x000000, 0);
-        this.groundGroup.add(this.ground);
-        this.ground.body.refreshBody();
+        const groundRect = this.add.rectangle(GAME_WIDTH / 2, GROUND_Y + 10, GAME_WIDTH, 20, 0x000000, 0);
+        this.physics.add.existing(groundRect, true);
+        this.groundGroup.add(groundRect);
 
         // Player
         this.hoochBalance = new HoochBalance();
