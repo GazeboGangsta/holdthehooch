@@ -29,6 +29,7 @@ class CollectibleManager {
             if (item.x < -50) {
                 item.setActive(false).setVisible(false);
                 item.body.enable = false;
+                this.scene.tweens.killTweensOf(item);
             }
         });
     }
@@ -55,7 +56,8 @@ class CollectibleManager {
         item.setPosition(GAME_WIDTH + 50, y);
         item.body.setSize(item.displayWidth, item.displayHeight);
 
-        // Gentle float animation
+        // Kill any lingering tweens from previous use, then add float animation
+        this.scene.tweens.killTweensOf(item);
         this.scene.tweens.add({
             targets: item,
             y: y - 8,
