@@ -1,0 +1,3 @@
+class HoochBalance {
+    constructor() {}
+}
