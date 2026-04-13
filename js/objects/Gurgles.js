@@ -19,7 +19,7 @@ class Gurgles {
         const y = this.sprite.y;
 
         // Hooch follows above Gurgles' head, offset by balance tilt
-        const tiltOffset = (hoochBalance.value / 100) * 20;
+        const tiltOffset = (hoochBalance.value / 100) * 8;
         this.hooch.setPosition(x + tiltOffset, y - 50);
         this.hooch.setAngle(hoochBalance.getTiltAngle());
 

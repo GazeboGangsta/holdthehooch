@@ -72,6 +72,6 @@ class HoochBalance {
     }
 
     getTiltAngle() {
-        return (this.value / 100) * 25; // max 25 degree tilt
+        return (this.value / 100) * 12; // max 12 degree tilt
     }
 }

@@ -52,7 +52,7 @@ class ObstacleManager {
 
         obstacle.setPosition(GAME_WIDTH + 50, GROUND_Y - obstacle.displayHeight / 2);
         obstacle.body.setImmovable(true);
-        obstacle.body.setSize(obstacle.displayWidth * 0.8, obstacle.displayHeight * 0.8);
+        obstacle.body.setSize(obstacle.displayWidth * 0.5, obstacle.displayHeight * 0.6);
     }
 
     getGroup() {
