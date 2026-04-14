@@ -1,0 +1,13 @@
+{
+  "name": "holdthehooch",
+  "version": "1.0.0",
+  "description": "Hold the Hooch -- endless runner starring Gurgles the Druid Brewer Gnome",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.5.0",
+    "express": "^4.21.1"
+  }
+}

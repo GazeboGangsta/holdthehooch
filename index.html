@@ -9,6 +9,12 @@
 <body>
     <div id="game-container"></div>
 
+    <!-- Name input overlay (shown only on menu) -->
+    <div id="name-overlay" style="display:none;">
+        <label for="player-name">Your Name:</label>
+        <input id="player-name" type="text" maxlength="16" autocomplete="off" spellcheck="false" placeholder="Gurgles Jr.">
+    </div>
+
     <!-- Phaser 3 -->
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
 
@@ -23,6 +29,7 @@
     <script src="js/scenes/MenuScene.js"></script>
     <script src="js/scenes/GameScene.js"></script>
     <script src="js/scenes/GameOverScene.js"></script>
+    <script src="js/scenes/LeaderboardScene.js"></script>
 
     <!-- Game config (starts the game) -->
     <script src="js/config.js"></script>

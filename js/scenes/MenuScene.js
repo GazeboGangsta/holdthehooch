@@ -8,7 +8,7 @@ class MenuScene extends Phaser.Scene {
         this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-mountains').setDisplaySize(GAME_WIDTH, GAME_HEIGHT);
 
         // Title
-        this.add.text(GAME_WIDTH / 2, 120, 'Hold the Hooch', {
+        this.add.text(GAME_WIDTH / 2, 100, 'Hold the Hooch', {
             fontSize: '52px',
             fill: '#F1C40F',
             fontFamily: 'Georgia, serif',
@@ -18,7 +18,7 @@ class MenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Subtitle
-        this.add.text(GAME_WIDTH / 2, 175, 'A Gurgles the Gnome Adventure', {
+        this.add.text(GAME_WIDTH / 2, 155, 'A Gurgles the Gnome Adventure', {
             fontSize: '18px',
             fill: '#bdc3c7',
             fontFamily: 'Georgia, serif',
@@ -26,11 +26,11 @@ class MenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Idle Gurgles
-        const gurgles = this.add.image(GAME_WIDTH / 2, 320, 'gurgles');
+        const gurgles = this.add.image(GAME_WIDTH / 2, 280, 'gurgles');
         gurgles.setScale(2);
 
         // Hooch above Gurgles' head, wobbling
-        const hooch = this.add.image(GAME_WIDTH / 2, 260, 'hooch').setScale(2);
+        const hooch = this.add.image(GAME_WIDTH / 2, 220, 'hooch').setScale(2);
 
         this.tweens.add({
             targets: hooch,
@@ -44,14 +44,14 @@ class MenuScene extends Phaser.Scene {
 
         // High score
         const highScore = localStorage.getItem('holdthehooch_highscore') || 0;
-        this.add.text(GAME_WIDTH / 2, 420, `High Score: ${highScore}`, {
+        this.add.text(GAME_WIDTH / 2, 360, `High Score: ${highScore}`, {
             fontSize: '22px',
             fill: '#ecf0f1',
             fontFamily: 'Arial, sans-serif',
         }).setOrigin(0.5);
 
         // Start prompt (blinking)
-        const startText = this.add.text(GAME_WIDTH / 2, 480, 'Press SPACE to Start', {
+        const startText = this.add.text(GAME_WIDTH / 2, 500, 'Press SPACE or ENTER to Start', {
             fontSize: '24px',
             fill: '#F1C40F',
             fontFamily: 'Arial, sans-serif',
@@ -65,9 +65,67 @@ class MenuScene extends Phaser.Scene {
             repeat: -1,
         });
 
-        // Input
-        this.input.keyboard.once('keydown-SPACE', () => {
-            this.scene.start('Game');
-        });
+        // Leaderboard link
+        const lbText = this.add.text(GAME_WIDTH / 2, 555, '[ L ] View Leaderboard', {
+            fontSize: '18px',
+            fill: '#2ecc71',
+            fontFamily: 'Arial, sans-serif',
+        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+
+        lbText.on('pointerdown', () => this.openLeaderboard());
+
+        // Name input overlay
+        this.nameOverlay = document.getElementById('name-overlay');
+        this.nameInput = document.getElementById('player-name');
+        this.nameOverlay.style.display = 'flex';
+        this.nameInput.value = localStorage.getItem('holdthehooch_name') || '';
+        this.nameInput.focus();
+
+        // Input handlers
+        this.input.keyboard.on('keydown-SPACE', this.tryStart, this);
+        this.input.keyboard.on('keydown-ENTER', this.tryStart, this);
+        this.input.keyboard.on('keydown-L', () => this.openLeaderboard());
+
+        // Also let the HTML input trigger start on Enter (browser captures keyboard focus)
+        this.domEnterHandler = (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.tryStart();
+            }
+        };
+        this.nameInput.addEventListener('keydown', this.domEnterHandler);
+
+        // Clean up on shutdown
+        this.events.once('shutdown', () => this.hideOverlay());
+    }
+
+    hideOverlay() {
+        if (this.nameOverlay) this.nameOverlay.style.display = 'none';
+        if (this.nameInput && this.domEnterHandler) {
+            this.nameInput.removeEventListener('keydown', this.domEnterHandler);
+        }
+    }
+
+    getName() {
+        const raw = (this.nameInput?.value || '').trim();
+        return raw.slice(0, 16);
+    }
+
+    tryStart() {
+        const name = this.getName();
+        if (!name) {
+            this.nameInput.focus();
+            this.nameInput.style.borderColor = '#e74c3c';
+            setTimeout(() => { this.nameInput.style.borderColor = ''; }, 800);
+            return;
+        }
+        localStorage.setItem('holdthehooch_name', name);
+        this.hideOverlay();
+        this.scene.start('Game', { playerName: name });
+    }
+
+    openLeaderboard() {
+        this.hideOverlay();
+        this.scene.start('Leaderboard', { from: 'Menu' });
     }
 }

@@ -52,18 +52,42 @@ The game gets harder over time:
 ## Tech Stack
 
 - **Phaser 3** (via CDN) -- game engine
-- **Vanilla JS** -- no build tools, no npm
+- **Vanilla JS** frontend (no bundler, no npm deps for the client)
+- **Express + better-sqlite3** backend -- name + score leaderboard API
 - **SVG assets** -- placeholder art, easily swappable
-- **GitHub Pages** -- hosted as a static site
+- **Docker / Nginx reverse proxy** -- hosted at [gurgles.beer](https://gurgles.beer) on the TNZInf infrastructure
 
 ## Development
 
-Just open `index.html` in a browser, or run a local server:
-
 ```bash
-python -m http.server 8080
-# Open http://localhost:8080
+npm install
+DATA_DIR=./data npm start
+# Open http://localhost:3003
 ```
+
+Scores persist to `./data/scores.db` (SQLite, single file).
+
+## Infrastructure Notes (for TNZInf deploys)
+
+This service needs a writable `/data` volume for the SQLite DB. In `TNZInf/docker-compose.yml` under the `holdthehooch` service:
+
+```yaml
+holdthehooch:
+  # ...
+  volumes:
+    - /data/holdthehooch:/data
+  # NOTE: remove read_only: true and tmpfs mounts -- Node + SQLite need writable FS
+```
+
+On the VPS: `sudo mkdir -p /data/holdthehooch && sudo chown 1000:1000 /data/holdthehooch` before first deploy.
+
+## API
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /api/scores` | Submit a score. Body: `{ name, score, distance, herbs, cause }`. Rate limited (1 per 5s per IP). |
+| `GET /api/scores/top?limit=N` | Top N scores (max 100, default 50), ordered by score desc. |
+| `GET /api/health` | Liveness check. |
 
 ### Replacing Art
 

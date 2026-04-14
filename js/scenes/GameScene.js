@@ -3,7 +3,8 @@ class GameScene extends Phaser.Scene {
         super('Game');
     }
 
-    create() {
+    create(data) {
+        this.playerName = (data && data.playerName) || localStorage.getItem('holdthehooch_name') || 'Anon';
         this.currentSpeed = CONSTANTS.INITIAL_SPEED;
         this.score = 0;
         this.gameOver = false;
@@ -249,6 +250,7 @@ class GameScene extends Phaser.Scene {
                 distance: finalScore,
                 herbs: this.collectibleManager.getCollectedCount(),
                 cause: this.deathCause,
+                playerName: this.playerName,
             });
         });
     }

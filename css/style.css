@@ -11,10 +11,53 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    position: relative;
 }
 
 canvas {
     display: block;
     max-width: 100vw;
     max-height: 100vh;
+}
+
+#name-overlay {
+    position: fixed;
+    left: 50%;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+#name-overlay label {
+    color: #F1C40F;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    text-shadow: 1px 1px 2px #000;
+}
+
+#name-overlay input {
+    padding: 8px 12px;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    border: 2px solid #F1C40F;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    text-align: center;
+    outline: none;
+    width: 220px;
+}
+
+#name-overlay input:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 8px #F1C40F;
 }
