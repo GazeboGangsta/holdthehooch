@@ -13,6 +13,7 @@ COPY index.html ./
 COPY js/ ./js/
 COPY css/ ./css/
 COPY assets/ ./assets/
+COPY privacy/ ./privacy/
 
 EXPOSE 3003
 CMD ["node", "server.js"]
